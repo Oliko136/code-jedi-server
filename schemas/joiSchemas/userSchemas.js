@@ -31,7 +31,7 @@ export const userLoginSchema = Joi.object({
 });
 
 export const updateUserThemeSchema = Joi.object({
-  subscription: Joi.string()
+  theme: Joi.string()
     .valid(...THEME_TYPES)
     .required()
     .messages({
