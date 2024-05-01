@@ -31,15 +31,15 @@ const login = async (req, res) => {
   const { email, password } = req.body;
   const user = await userServices.findUser({ email });
   if (!user) {
-    throw HttpError(401, "Email or passwor invalid");
+    throw HttpError(401, "Email or password invalid");
   }
-  const passworCompare = await bcrypt.compare(password, user.password);
-  if (!passworCompare) {
-    throw HttpError(401, "Email or passwor invalid");
+  const passwordCompare = await bcrypt.compare(password, user.password);
+  if (!passwordCompare) {
+    throw HttpError(401, "Email or password invalid");
   }
   const { _id: id, name, theme } = user;
   if (user.token) {
-    throw HttpError(401, "you already login");
+    throw HttpError(409, "you already login");
   }
   const payload = {
     id,
