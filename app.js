@@ -5,10 +5,11 @@ import mongoose from "mongoose";
 import "dotenv/config";
 import authRouter from "./routes/authRoutes.js";
 
-const app = express();
-
 const { DB_HOST, PORT } = process.env;
 
+const app = express();
+
+app.use(express.static("images/public"));
 app.use(morgan("tiny"));
 app.use(cors());
 app.use(express.json());
