@@ -17,6 +17,10 @@ const userSchema = new Schema(
       required: [true, "Email is required"],
       unique: true,
     },
+    avatar: {
+      type: String,
+      required: true,
+    },
     theme: {
       type: String,
       enum: THEME_TYPES,

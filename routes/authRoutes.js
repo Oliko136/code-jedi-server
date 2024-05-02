@@ -8,6 +8,7 @@ import {
   userRegistrationSchema,
 } from "../schemas/joiSchemas/userSchemas.js";
 import authenticate from "../middlewares/authenticate.js";
+import upload from "../middlewares/upload.js";
 
 const authRouter = express.Router();
 
@@ -26,11 +27,18 @@ authRouter.patch(
   authControllers.updateTheme
 );
 
+authRouter.patch(
+  "/avatars",
+  authenticate,
+  upload.single("avatar"),
+  authControllers.updateAvatar
+);
+
 authRouter.put(
   "/",
   authenticate,
   validateBody(updateUserProfileSchema),
-  authControllers.updateProfile
+  authControllers.updateProfile7362d51fdf755e531956ea8502da9bab4712645
 );
 
 authRouter.get("/current", authenticate, authControllers.getCurrentUser);
