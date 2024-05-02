@@ -38,7 +38,7 @@ authRouter.put(
   "/",
   authenticate,
   validateBody(updateUserProfileSchema),
-  authControllers.updateProfile7362d51fdf755e531956ea8502da9bab4712645
+  authControllers.updateProfile
 );
 
 authRouter.get("/current", authenticate, authControllers.getCurrentUser);
