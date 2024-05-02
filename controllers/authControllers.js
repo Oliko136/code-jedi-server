@@ -52,7 +52,32 @@ const login = async (req, res) => {
   });
 };
 
+const updateTheme = async (req, res) => {
+  const { theme } = req.body;
+  const { email } = req.user;
+  const user = await userServices.findUser({ email });
+  if (!user) {
+    throw HttpError(404, "User not found");
+  }
+
+  const result = await userServices.updateUser({ email }, { theme });
+
+  res.json(result);
+}
+
+const getCurrentUser = async (req, res) => {
+  const { name, email, theme } = req.user;
+
+  res.json({
+    name,
+    email,
+    theme
+  })
+}
+
 export default {
   register: controllerDecorator(register),
   login: controllerDecorator(login),
+  updateTheme: controllerDecorator(updateTheme),
+  getCurrentUser: controllerDecorator(getCurrentUser),
 };
