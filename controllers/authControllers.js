@@ -52,7 +52,18 @@ const login = async (req, res) => {
   });
 };
 
+const getCurrentUser = async (req, res) => {
+  const { name, email, theme } = req.user;
+
+  res.json({
+    name,
+    email,
+    theme
+  })
+}
+
 export default {
   register: controllerDecorator(register),
   login: controllerDecorator(login),
+  getCurrentUser: controllerDecorator(getCurrentUser),
 };
