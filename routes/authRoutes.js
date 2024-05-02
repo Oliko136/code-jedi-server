@@ -2,6 +2,7 @@ import express from "express";
 import authControllers from "../controllers/authControllers.js";
 import validateBody from "../middlewares/validateBody.js";
 import {
+  updateUserProfileSchema,
   updateUserThemeSchema,
   userLoginSchema,
   userRegistrationSchema,
@@ -33,6 +34,15 @@ authRouter.patch(
   authControllers.updateAvatar
 );
 
+authRouter.put(
+  "/",
+  authenticate,
+  validateBody(updateUserProfileSchema),
+  authControllers.updateProfile7362d51fdf755e531956ea8502da9bab4712645
+);
+
 authRouter.get("/current", authenticate, authControllers.getCurrentUser);
+
+authRouter.post("/logout", authenticate, authControllers.logout);
 
 export default authRouter;

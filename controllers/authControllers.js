@@ -110,10 +110,32 @@ const getCurrentUser = async (req, res) => {
   });
 };
 
+const logout = async (req, res) => {
+  const { _id } = req.user;
+  await userServices.updateUser({ _id }, { token: null });
+  res.status(204).json();
+};
+
+const updateProfile = async (req, res) => {
+  const { email, password } = req.user;
+  const user = await userServices.findUser({ email });
+  if (!user) {
+    throw HttpError(404, "User not found");
+  }
+  const hashPassword = await bcrypt.hash(password, 10);
+  const result = await userServices.updateUser(
+    { email },
+    { ...req.body, password: hashPassword }
+  );
+  res.json(result);
+};
+
 export default {
   register: controllerDecorator(register),
   login: controllerDecorator(login),
   updateTheme: controllerDecorator(updateTheme),
   getCurrentUser: controllerDecorator(getCurrentUser),
   updateAvatar: controllerDecorator(updateAvatar),
+  logout: controllerDecorator(logout),
+  updateProfile: controllerDecorator(updateProfile),
 };

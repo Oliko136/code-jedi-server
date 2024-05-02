@@ -40,3 +40,16 @@ export const updateUserThemeSchema = Joi.object({
       "any.required": "Missing required field theme",
     }),
 });
+
+export const updateUserProfileSchema = Joi.object({
+  name: Joi.string().messages({
+    "string.base": "Name must be a string",
+  }),
+  email: Joi.string().pattern(emailRegexp).messages({
+    "string.base": "Email must be a string",
+    "string.pattern.base": "Incorrect email format",
+  }),
+  password: Joi.string().messages({
+    "string.base": "Password must be a string",
+  }),
+});
