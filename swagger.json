@@ -1,0 +1,263 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "version": "1.0.0",
+        "title": "Task Pro API Docs",
+        "description": "Documentation of Task Pro API endpoints",
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "consumes": ["application/json", "multipart/form-data"],
+    "produces": ["application/json", "multipart/form-data"],
+    "servers": [
+        { "url": "https://code-jedi-server.onrender.com", "description": "Production server" }, 
+        { "url": "http://localhost:4000", "description": "Dev server"}
+    ],
+    "tags": [
+        {"name": "Auth", "description": "Authorization endpoints"},
+        {"name": "User", "description": "User information endpoints"},
+        {"name": "Board", "description": "Board endpoints"},
+        {"name": "Column", "description": "Column endpoints"},
+        {"name": "Card", "description": "Card endpoints"}
+    ],
+    "paths": {
+        "/auth/register": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Create a new user",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Registration object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegistrationRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "User created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RegistrationLoginResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)"
+                    },
+                    "409": {
+                        "description": "Email already in use"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/auth/login": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Log in user",
+                "parameters": [],
+                "requestBody": {
+                    "description": "Login object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User logged in",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/RegistrationLoginResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)"
+                    },
+                    "401": {
+                        "description": "Email or password invalid"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/auth/current": {
+            "get": {
+                "tags": ["Auth"],
+                "summary": "Get current user info",
+                "parameters": [],
+                "security": [{ "Bearer": [] }],
+                "responses": {
+                    "200": {
+                        "description": "Information successfully fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetCurrentResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/auth/logout": {
+            "post": {
+                "tags": ["Auth"],
+                "summary": "Log out user",
+                "parameters": [],
+                "security": [{ "Bearer": [] }],
+                "responses": {
+                    "204": {
+                        "description": "User logged out (no content)"
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "RegistrationRequest": {
+                "type": "object",
+                "required": ["name", "email", "password"],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Username",
+                        "example": "Adrian Cross"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "User's email",
+                        "example": "across@mail.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "User's password",
+                        "example": "qwerty123"
+                    }
+                }
+            },
+            "LoginRequest": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                    "email": {
+                        "type": "string",
+                        "description": "User's email",
+                        "example": "across@mail.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "User's password",
+                        "example": "qwerty123"
+                    }
+                }
+            },
+            "RegistrationLoginResponse": {
+                "type": "object",
+                "properties": {
+                    "token": {
+                        "type": "string",
+                        "description": "User's token"
+                    },
+                    "user": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Username",
+                                "example": "Adrian Cross"
+                            },
+                            "email": {
+                                "type": "string",
+                                "description": "User's email",
+                                "example": "across@mail.com"
+                            },
+                            "avatar": {
+                                "type": "string",
+                                "description": "User's avatar",
+                                "example": "avatar/standardAvatar.png"
+                            },
+                            "theme": {
+                                "type": "string",
+                                "description": "User's theme",
+                                "example": "dark"
+                            }
+                        }
+                        
+                    }
+                }
+            },
+            "GetCurrentResponse": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "Username",
+                                "example": "Adrian Cross"
+                            },
+                            "email": {
+                                "type": "string",
+                                "description": "User's email",
+                                "example": "across@mail.com"
+                            },
+                            "avatar": {
+                                "type": "string",
+                                "description": "User's avatar",
+                                "example": "avatar/standardAvatar.png"
+                            },
+                            "theme": {
+                                "type": "string",
+                                "description": "User's theme",
+                                "example": "dark"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "Bearer": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}
