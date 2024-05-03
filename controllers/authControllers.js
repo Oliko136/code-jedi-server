@@ -26,8 +26,14 @@ const register = async (req, res) => {
     avatar,
     password: hashPassword,
   });
+  //* Auto load: after registration get token
+  const { _id: id } = newUser;
 
+  const token = jwt.sign({ id }, JWT_SECRET, { expiresIn: "23h" });
+  await userServices.updateUser({ _id: id }, { token });
+  //*
   res.status(201).json({
+    token,
     name: newUser.name,
     email: newUser.email,
     avatar: newUser.avatar,
