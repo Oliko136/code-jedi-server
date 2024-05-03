@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
 import handleMongooseError from "../../hooks/handleMongooseError.js";
 import THEME_TYPES from "../../constants/themeTypes.js";
+import EMAIL_REGEXP from "../../constants/emailRegexp.js";
 
 const userSchema = new Schema(
   {
@@ -10,10 +11,12 @@ const userSchema = new Schema(
     },
     password: {
       type: String,
+      match: /^\S+$/,
       required: [true, "Password is required"],
     },
     email: {
       type: String,
+      match: EMAIL_REGEXP,
       required: [true, "Email is required"],
       unique: true,
     },
