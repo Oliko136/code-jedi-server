@@ -30,10 +30,12 @@ const register = async (req, res) => {
   //*
   res.status(201).json({
     token,
-    name: newUser.name,
-    email: newUser.email,
-    avatar: newUser.avatar,
-    theme: newUser.theme,
+    user: {
+      name: newUser.name,
+      email: newUser.email,
+      avatar: newUser.avatar,
+      theme: newUser.theme
+    }
   });
 };
 
@@ -49,9 +51,7 @@ const login = async (req, res) => {
     throw HttpError(401, "Email or password invalid");
   }
   const { _id: id, name, avatar, theme } = user;
-  // if (user.token) {
-  //   throw HttpError(409, "you already login");
-  // }
+
   const payload = {
     id,
   };
@@ -59,24 +59,22 @@ const login = async (req, res) => {
   await userServices.updateUser({ _id: id }, { token });
   res.json({
     token,
-    user: { name, email, avatar, theme },
+    user: { name, email, avatar, theme }
   });
 };
 
 const getCurrentUser = async (req, res) => {
-  const { name, email, theme } = req.user;
+  const { name, email, avatar, theme } = req.user;
 
   res.json({
-    name,
-    email,
-    theme,
+    user: {name, email, avatar, theme}
   });
 };
 
 const logout = async (req, res) => {
   const { _id } = req.user;
   await userServices.updateUser({ _id }, { token: null });
-  res.status(204).json();
+  res.status(204).send();
 };
 
 export default {

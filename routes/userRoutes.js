@@ -1,4 +1,5 @@
 import express from "express";
+import userControllers from "../controllers/userControllers.js";
 import validateBody from "../middlewares/validateBody.js";
 import authenticate from "../middlewares/authenticate.js";
 import upload from "../middlewares/upload.js";
@@ -10,21 +11,21 @@ userRouter.put(
   "/",
   authenticate,
   validateBody(updateUserProfileSchema),
-  authControllers.updateProfile
+  userControllers.updateProfile
 );
 
 userRouter.patch(
   "/",
   authenticate,
   validateBody(updateUserThemeSchema),
-  authControllers.updateTheme
+  userControllers.updateTheme
 );
 
 userRouter.patch(
   "/avatars",
   authenticate,
   upload.single("avatar"),
-  authControllers.updateAvatar
+  userControllers.updateAvatar
 );
 
 
