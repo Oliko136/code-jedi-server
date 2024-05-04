@@ -145,6 +145,125 @@
                     }
                 }
             }
+        },
+        "/users": {
+            "put": {
+                "tags": ["User"],
+                "summary": "Edit user's profile info",
+                "parameters": [],
+                "security": [{ "Bearer": [] }],
+                "requestBody": {
+                    "description": "User info object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EditUserInfoRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User info edited",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EditUserInfoResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["User"],
+                "summary": "Change user's theme",
+                "parameters": [],
+                "security": [{ "Bearer": [] }],
+                "requestBody": {
+                    "description": "User theme object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EditUserThemeRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User theme edited",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EditUserThemeResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/users/avatars": {
+            "patch": {
+                "tags": ["User"],
+                "summary": "Change user's avatar",
+                "parameters": [],
+                "security": [{ "Bearer": [] }],
+                "requestBody": {
+                    "description": "User avatar file",
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "string",
+                                "format": "binary"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "User avatar edited",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EditUserAvatarResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)"
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -246,6 +365,87 @@
                                 "type": "string",
                                 "description": "User's theme",
                                 "example": "dark"
+                            }
+                        }
+                    }
+                }
+            },
+            "EditUserInfoRequest": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "New username",
+                        "example": "Adrian Cross"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "User's new email",
+                        "example": "across@mail.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "User's new password",
+                        "example": "qwerty123"
+                    }
+                }
+            },
+            "EditUserInfoResponse": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "New username",
+                                "example": "Adrian Cross"
+                            },
+                            "email": {
+                                "type": "string",
+                                "description": "User's new email",
+                                "example": "across@mail.com"
+                            }
+                        }
+                    }
+                }
+            },
+            "EditUserThemeRequest": {
+                "type": "object",
+                "required": ["theme"],
+                "properties": {
+                    "theme": {
+                        "type": "string",
+                        "description": "Theme type",
+                        "example": "dark"
+                    }
+                }
+            },
+            "EditUserThemeResponse": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "type": "object",
+                        "properties": {
+                            "theme": {
+                                "type": "string",
+                                "description": "New theme",
+                                "example": "light"
+                            }
+                        }
+                    }
+                }
+            },
+            "EditUserAvatarResponse": {
+                "type": "object",
+                "properties": {
+                    "user": {
+                        "type": "object",
+                        "properties": {
+                            "avatar": {
+                                "type": "string",
+                                "description": "New avatar",
+                                "example": "avatar/newAvatar.png"
                             }
                         }
                     }
