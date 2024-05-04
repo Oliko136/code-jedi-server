@@ -67,7 +67,9 @@ const updateAvatar = async (req, res) => {
     });
     await fs.unlink(newPath);
     const result = await userServices.updateUser({ _id }, { avatar: url });
-    res.json({ name, email, avatar: result.avatar, theme });
+    res.json({
+      user: { avatar: result.avatar }
+    });
   }
 };
 
