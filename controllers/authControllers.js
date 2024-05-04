@@ -1,9 +1,10 @@
-import * as userServices from "../services/userServices.js";
-import HttpError from "../helpers/HttpError.js";
 import bcrypt from "bcrypt";
-import controllerDecorator from "../helpers/controllerDecorator.js";
 import jwt from "jsonwebtoken";
 import path from "path";
+import * as userServices from "../services/userServices.js";
+import HttpError from "../helpers/HttpError.js";
+import controllerDecorator from "../helpers/controllerDecorator.js";
+
 
 const { JWT_SECRET } = process.env;
 

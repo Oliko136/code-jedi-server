@@ -1,10 +1,11 @@
+import bcrypt from "bcrypt";
+import fs from "fs/promises";
+import path from "path";
+import Jimp from "jimp";
 import * as userServices from "../services/userServices.js";
 import HttpError from "../helpers/HttpError.js";
 import controllerDecorator from "../helpers/controllerDecorator.js";
-import fs from "fs/promises";
-import path from "path";
 import cloudinary from "../helpers/cloudinary.js";
-import Jimp from "jimp";
 
 const posterPath = path.resolve("images", "public", "avatar");
 
@@ -19,7 +20,12 @@ const updateProfile = async (req, res) => {
     { email },
     { ...req.body, password: hashPassword }
   );
-  res.json(result);
+  res.json({
+    user: {
+      name: result.name,
+      email: result.email
+    }
+  });
 };
 
 const updateTheme = async (req, res) => {
@@ -32,7 +38,11 @@ const updateTheme = async (req, res) => {
 
   const result = await userServices.updateUser({ email }, { theme });
 
-  res.json(result);
+  res.json({
+    user: {
+      theme: result.theme
+    }
+  });
 };
 
 const updateAvatar = async (req, res) => {
