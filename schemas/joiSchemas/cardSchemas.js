@@ -18,7 +18,7 @@ export const cardAddSchema = Joi.object({
     }),
   deadline: Joi.date()
     .min(new Date()) // Забороняє обирати минулу дату
-    .format("MM/DD/YYYY") // Встановлює формат дати
+    .format("DD/MM/YYYY") // Встановлює формат дати
     // .optional() // Робить поле необов'язковим
     .messages({
       "date.base": "Deadline must be a valid date",
