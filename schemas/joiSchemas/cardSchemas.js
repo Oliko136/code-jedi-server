@@ -23,7 +23,7 @@ export const cardAddSchema = Joi.object({
     .messages({
       "date.base": "Deadline must be a valid date",
       "date.min": "Deadline must be in the future",
-      "date.format": "Deadline must be in the format MM/DD/YYYY",
+      "date.format": "Deadline must be in the format DD/MM/YYYY",
     }),
 });
 
