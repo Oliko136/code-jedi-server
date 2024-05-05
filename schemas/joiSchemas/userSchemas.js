@@ -44,7 +44,7 @@ export const updateUserThemeSchema = Joi.object({
     .required()
     .messages({
       "string.base": "Theme must be a string",
-      "string.valid": "Invalid theme value",
+      "any.only": "Invalid theme value",
       "any.required": "Missing required field theme",
     }),
 });
