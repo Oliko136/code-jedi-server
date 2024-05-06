@@ -18,12 +18,12 @@ export const cardAddSchema = Joi.object({
     }),
   deadline: Joi.date()
     .min(new Date()) // Забороняє обирати минулу дату
-    .format("DD/MM/YYYY") // Встановлює формат дати
+    // .format("DD/MM/YYYY") // Встановлює формат дати
     // .optional() // Робить поле необов'язковим
     .messages({
       "date.base": "Deadline must be a valid date",
       "date.min": "Deadline must be in the future",
-      "date.format": "Deadline must be in the format DD/MM/YYYY",
+      // "date.format": "Deadline must be in the format DD/MM/YYYY",
     }),
 });
 
@@ -43,11 +43,11 @@ export const cardEditSchema = Joi.object({
     }),
   deadline: Joi.date()
     .min(new Date()) // Забороняє обирати минулу дату
-    .format("DD/MM/YYYY") // Встановлює формат дати
+    // .format("DD/MM/YYYY") // Встановлює формат дати
     // .optional() // Робить поле необов'язковим
     .messages({
       "date.base": "Deadline must be a valid date",
       "date.min": "Deadline must be in the future",
-      "date.format": "Deadline must be in the format DD/MM/YYYY",
+      // "date.format": "Deadline must be in the format DD/MM/YYYY",
     }),
 });

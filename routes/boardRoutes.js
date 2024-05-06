@@ -8,6 +8,10 @@ const boardRouter = express.Router();
 
 boardRouter.use(authenticate);
 
-boardRouter.post("/", validateBody(boardAddSchema), boardControllers.addBoard);
+boardRouter.post(
+  "/",
+  validateBody(boardAddSchema),
+  boardControllers.createBoard
+);
 
 export default boardRouter;
