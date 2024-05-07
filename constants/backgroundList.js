@@ -1,5 +1,20 @@
-// Треба буде змінити після того, як будуть відомі назви іконок фона в борді
-
-const BACKGROUND_LIST = ["default", "balloon", "tree"];
+const BACKGROUND_LIST = [
+  "default",
+  "air",
+  "ballons",
+  "canyon",
+  "abstract",
+  "clouds",
+  "magnolia",
+  "milkyway",
+  "moon",
+  "night",
+  "palm",
+  "rocks",
+  "sea",
+  "stars",
+  "tree",
+  "yacht",
+];
 
 export default BACKGROUND_LIST;

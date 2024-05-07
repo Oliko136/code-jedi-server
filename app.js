@@ -4,10 +4,13 @@ import cors from "cors";
 import mongoose from "mongoose";
 import "dotenv/config";
 import swaggerUi from "swagger-ui-express";
-import swaggerDocument from "./swagger.json" assert {"type": "json"};
+import swaggerDocument from "./swagger.json" assert { "type": "json" };
 
 import authRouter from "./routes/authRoutes.js";
 import userRouter from "./routes/userRoutes.js";
+import boardRouter from "./routes/boardRoutes.js";
+import columnRouter from "./routes/columnRoutes.js";
+import cardRouter from "./routes/cardRoutes.js";
 
 const { DB_HOST, PORT } = process.env;
 
@@ -21,6 +24,9 @@ app.use(express.json());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/auth", authRouter);
 app.use("/users", userRouter);
+app.use("/boards", boardRouter);
+app.use("/boards", columnRouter);
+app.use("/boards", cardRouter);
 
 app.use((_, res) => {
   res.status(404).json({ message: "Route not found" });
