@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import handleMongooseError from "../../hooks/handleMongooseError.js";
+import setUpdateSetting from "../../hooks/setUpdateSettings.js";
 
 const columnSchema = new Schema(
   {
@@ -17,6 +18,10 @@ const columnSchema = new Schema(
 );
 
 columnSchema.post("save", handleMongooseError);
+
+columnSchema.pre("findOneAndUpdate", setUpdateSetting);
+
+columnSchema.post("findOneAndUpdate", handleMongooseError);
 
 const Column = model("column", columnSchema);
 

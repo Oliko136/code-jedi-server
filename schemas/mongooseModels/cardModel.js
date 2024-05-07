@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
 import handleMongooseError from "../../hooks/handleMongooseError.js";
+import setUpdateSetting from "../../hooks/setUpdateSettings.js";
 import PRIORITY_LIST from "../../constants/priorityList.js";
 
 const cardSchema = new Schema(
@@ -27,6 +28,10 @@ const cardSchema = new Schema(
 );
 
 cardSchema.post("save", handleMongooseError);
+
+cardSchema.pre("findOneAndUpdate", setUpdateSetting);
+
+cardSchema.post("findOneAndUpdate", handleMongooseError);
 
 const Card = model("card", cardSchema);
 
