@@ -1,7 +1,5 @@
-// Треба буде змінити після того, як будуть відомі назви іконок в борді
-
 const ICONS_LIST = [
-  "default",
+  "project",
   "star",
   "loading",
   "puzzle-piece",

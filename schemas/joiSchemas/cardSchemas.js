@@ -5,6 +5,7 @@ export const cardAddSchema = Joi.object({
   title: Joi.string().min(2).required().messages({
     "string.base": "Title must be a string",
     "string.min": "Title must have a minimum length of {#limit} symbols",
+    "string.empty": "Title should not be empty",
     "any.required": "Missing required field title",
   }),
   description: Joi.string().messages({
@@ -30,6 +31,7 @@ export const cardAddSchema = Joi.object({
 export const cardEditSchema = Joi.object({
   title: Joi.string().min(2).messages({
     "string.base": "Title must be a string",
+    "string.empty": "Title should not be empty",
     "string.min": "Title must have a minimum length of {#limit} symbols",
   }),
   description: Joi.string().messages({
