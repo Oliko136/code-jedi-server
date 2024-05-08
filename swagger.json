@@ -264,6 +264,72 @@
                     }
                 }
             }
+        },
+        "/boards": {
+            "post": {
+                "tags": ["Board"],
+                "summary": "Create a new board",
+                "parameters": [],
+                "security": [{ "Bearer": [] }],
+                "requestBody": {
+                    "description": "New board object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateBoardRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Board created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CreateBoardResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)"
+                    },
+                    "409": {
+                        "description": "Title already exists"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Board"],
+                "summary": "Get all boards",
+                "parameters": [],
+                "security": [{ "Bearer": [] }]
+            }
+        },
+        "/boards:id": {
+            "get": {
+                "tags": ["Board"],
+                "summary": "Get one board by id",
+                "parameters": [],
+                "security": [{ "Bearer": [] }]
+            },
+            "put": {
+                "tags": ["Board"],
+                "summary": "Update board by id",
+                "parameters": [],
+                "security": [{ "Bearer": [] }]
+            },
+            "delete": {
+                "tags": ["Board"],
+                "summary": "Delete board by id",
+                "parameters": [],
+                "security": [{ "Bearer": [] }]
+            }
         }
     },
     "components": {
@@ -450,8 +516,60 @@
                         }
                     }
                 }
+            },
+            "CreateBoardRequest": {
+                "type": "object",
+                "required": ["title"],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "Board title",
+                        "example": "Project office"
+                    },
+                    "icon": {
+                        "type": "string",
+                        "description": "Board icon",
+                        "example": "project"
+                    },
+                    "background": {
+                        "type": "string",
+                        "description": "Board background",
+                        "example": "air"
+                    }
+                }
+            },
+            "CreateBoardResponse": {
+                "type": "object",
+                "properties": {
+                    "board": {
+                        "type": "object",
+                        "properties": {
+                            "id": {
+                                "type": "string",
+                                "description": "Board id",
+                                "example": "6638be5fe63b9dbsdf8db0ch"
+                            },
+                            "title": {
+                                "type": "string",
+                                "description": "Board title",
+                                "example": "Project office"
+                            },
+                            "icon": {
+                                "type": "string",
+                                "description": "Board icon",
+                                "example": "project"
+                            },
+                            "background": {
+                                "type": "string",
+                                "description": "Board background",
+                                "example": "air"
+                            }
+                        }
+                    }
+                }
             }
-        },
+        }
+    },
         "securitySchemes": {
             "Bearer": {
                 "type": "http",
@@ -460,4 +578,3 @@
             }
         }
     }
-}
