@@ -264,6 +264,182 @@
                     }
                 }
             }
+        },
+        "/boards": {
+            "post": {
+                "tags": ["Board"],
+                "summary": "Create a new board",
+                "parameters": [],
+                "security": [{ "Bearer": [] }],
+                "requestBody": {
+                    "description": "New board details object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateBoardRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Board created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BoardResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)"
+                    },
+                    "409": {
+                        "description": "Title already exists"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Board"],
+                "summary": "Get all boards",
+                "parameters": [],
+                "security": [{ "Bearer": [] }],
+                "responses": {
+                    "200": {
+                        "description": "Boards successfully fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetAllBoardsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/boards/:id": {
+            "get": {
+                "tags": ["Board"],
+                "summary": "Get one board by id",
+                "parameters": [{
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                    "type": "string",
+                    "description": "Board id"
+                }],
+                "security": [{ "Bearer": [] }],
+                "responses": {
+                    "200": {
+                        "description": "Board successfully fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BoardResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "404": {
+                        "description": "Board not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "put": {
+                "tags": ["Board"],
+                "summary": "Update board by id",
+                "parameters": [{
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                    "type": "string",
+                    "description": "Board id"
+                }],
+                "security": [{ "Bearer": [] }],
+                "requestBody": {
+                    "description": "Board details object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EditBoardRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Board updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BoardResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "404": {
+                        "description": "Board not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Board"],
+                "summary": "Delete board by id",
+                "parameters": [{
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                    "type": "string",
+                    "description": "Board id"
+                }],
+                "security": [{ "Bearer": [] }],
+                "responses": {
+                    "200": {
+                        "description": "Board deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BoardResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "404": {
+                        "description": "Board not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -450,8 +626,101 @@
                         }
                     }
                 }
+            },
+            "CreateBoardRequest": {
+                "type": "object",
+                "required": ["title"],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "Board title",
+                        "example": "Project office"
+                    },
+                    "icon": {
+                        "type": "string",
+                        "description": "Board icon",
+                        "example": "project"
+                    },
+                    "background": {
+                        "type": "string",
+                        "description": "Board background",
+                        "example": "air"
+                    }
+                }
+            },
+            "BoardResponse": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "description": "Board id",
+                        "example": "6638be5fe63b9dbsdf8db0ch"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Board title",
+                        "example": "Project office"
+                    },
+                    "icon": {
+                        "type": "string",
+                        "description": "Board icon",
+                        "example": "project"
+                    },
+                    "background": {
+                        "type": "string",
+                        "description": "Board background",
+                        "example": "air"
+                    },
+                    "owner": {
+                        "type": "string",
+                        "description": "Board owner's id",
+                        "example": "6038be5frd3b9dsbaff8db0cb"
+                    }
+                }
+            },
+            "GetAllBoardsResponse": {
+                "type": "object",
+                "properties": {
+                    "result": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BoardResponse" 
+                        },
+                        "example": [
+                            { "id": "6638be5fe63b9dbsdf8db0ch", "title": "Project office", "icon": "project", "background": "air", "owner": "603abs5fjd3b9dsbaff8dh0c8" },
+                            { "id": "9828b75fe63b9dbsd48db03s", "title": "Neon Light Project", "icon": "colors", "background": "milkyway", "owner": "603abs5fjd3b9dsbaff8dh0c8"}
+                        ]
+                    },
+                    "total": {
+                        "type": "integer",
+                        "description": "Total amount of boards for this user",
+                        "example": 5
+                    }
+                } 
+                
+            },
+            "EditBoardRequest": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "New board title",
+                        "example": "Project office"
+                    },
+                    "icon": {
+                        "type": "string",
+                        "description": "New board icon",
+                        "example": "project"
+                    },
+                    "background": {
+                        "type": "string",
+                        "description": "New board background",
+                        "example": "air"
+                    }
+                }
             }
-        },
+        }
+    },
         "securitySchemes": {
             "Bearer": {
                 "type": "http",
@@ -460,4 +729,3 @@
             }
         }
     }
-}
