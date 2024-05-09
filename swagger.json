@@ -651,35 +651,30 @@
             "BoardResponse": {
                 "type": "object",
                 "properties": {
-                    "board": {
-                        "type": "object",
-                        "properties": {
-                            "_id": {
-                                "type": "string",
-                                "description": "Board id",
-                                "example": "6638be5fe63b9dbsdf8db0ch"
-                            },
-                            "title": {
-                                "type": "string",
-                                "description": "Board title",
-                                "example": "Project office"
-                            },
-                            "icon": {
-                                "type": "string",
-                                "description": "Board icon",
-                                "example": "project"
-                            },
-                            "background": {
-                                "type": "string",
-                                "description": "Board background",
-                                "example": "air"
-                            },
-                            "owner": {
-                                "type": "string",
-                                "description": "Board owner's id",
-                                "example": "6038be5frd3b9dsbaff8db0cb"
-                            }
-                        }
+                    "_id": {
+                        "type": "string",
+                        "description": "Board id",
+                        "example": "6638be5fe63b9dbsdf8db0ch"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Board title",
+                        "example": "Project office"
+                    },
+                    "icon": {
+                        "type": "string",
+                        "description": "Board icon",
+                        "example": "project"
+                    },
+                    "background": {
+                        "type": "string",
+                        "description": "Board background",
+                        "example": "air"
+                    },
+                    "owner": {
+                        "type": "string",
+                        "description": "Board owner's id",
+                        "example": "6038be5frd3b9dsbaff8db0cb"
                     }
                 }
             },
