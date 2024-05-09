@@ -488,31 +488,25 @@
                         "type": "string",
                         "description": "User's token"
                     },
-                    "user": {
-                        "type": "object",
-                        "properties": {
-                            "name": {
-                                "type": "string",
-                                "description": "Username",
-                                "example": "Adrian Cross"
-                            },
-                            "email": {
-                                "type": "string",
-                                "description": "User's email",
-                                "example": "across@mail.com"
-                            },
-                            "avatar": {
-                                "type": "string",
-                                "description": "User's avatar",
-                                "example": "avatar/standardAvatar.png"
-                            },
-                            "theme": {
-                                "type": "string",
-                                "description": "User's theme",
-                                "example": "dark"
-                            }
-                        }
-                        
+                    "name": {
+                        "type": "string",
+                        "description": "Username",
+                        "example": "Adrian Cross"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "User's email",
+                        "example": "across@mail.com"
+                    },
+                    "avatar": {
+                        "type": "string",
+                        "description": "User's avatar",
+                        "example": "avatar/standardAvatar.png"
+                    },
+                    "theme": {
+                        "type": "string",
+                        "description": "User's theme",
+                        "example": "dark"
                     }
                 }
             },
@@ -569,20 +563,15 @@
             "EditUserInfoResponse": {
                 "type": "object",
                 "properties": {
-                    "user": {
-                        "type": "object",
-                        "properties": {
-                            "name": {
-                                "type": "string",
-                                "description": "New username",
-                                "example": "Adrian Cross"
-                            },
-                            "email": {
-                                "type": "string",
-                                "description": "User's new email",
-                                "example": "across@mail.com"
-                            }
-                        }
+                    "name": {
+                        "type": "string",
+                        "description": "New username",
+                        "example": "Adrian Cross"
+                    },
+                    "email": {
+                        "type": "string",
+                        "description": "User's new email",
+                        "example": "across@mail.com"
                     }
                 }
             },
@@ -615,15 +604,10 @@
             "EditUserAvatarResponse": {
                 "type": "object",
                 "properties": {
-                    "user": {
-                        "type": "object",
-                        "properties": {
-                            "avatar": {
-                                "type": "string",
-                                "description": "New avatar",
-                                "example": "avatar/newAvatar.png"
-                            }
-                        }
+                    "avatar": {
+                        "type": "string",
+                        "description": "New avatar",
+                        "example": "avatar/newAvatar.png"
                     }
                 }
             },

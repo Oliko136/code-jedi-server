@@ -21,10 +21,8 @@ const updateProfile = async (req, res) => {
     { ...req.body, password: hashPassword }
   );
   res.json({
-    user: {
-      name: result.name,
-      email: result.email
-    }
+    name: result.name,
+    email: result.email
   });
 };
 
@@ -49,7 +47,7 @@ const updateAvatar = async (req, res) => {
   if (!req.file) {
     throw HttpError(400, "Please send the file");
   }
-  const { _id, name, email, theme } = req.user;
+  const { _id } = req.user;
   const { path: oldPath } = req.file;
   const newPath = path.join(posterPath, "newfile.jpg");
 
@@ -68,7 +66,7 @@ const updateAvatar = async (req, res) => {
     await fs.unlink(newPath);
     const result = await userServices.updateUser({ _id }, { avatar: url });
     res.json({
-      user: { avatar: result.avatar }
+      avatar: result.avatar
     });
   }
 };
