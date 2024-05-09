@@ -308,7 +308,25 @@
                 "tags": ["Board"],
                 "summary": "Get all boards",
                 "parameters": [],
-                "security": [{ "Bearer": [] }]
+                "security": [{ "Bearer": [] }],
+                "responses": {
+                    "200": {
+                        "description": "Boards successfully fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetAllBoardsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
             }
         },
         "/boards:id": {
@@ -567,6 +585,16 @@
                         }
                     }
                 }
+            },
+            "GetAllBoardsResponse": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/components/schemas/CreateBoardResponse" 
+                },
+                "example": [
+                    { "id": "6638be5fe63b9dbsdf8db0ch", "title": "Project office", "icon": "project", "background": "air" },
+                    { "id": "9828b75fe63b9dbsd48db03s", "title": "Neon Light Project", "icon": "colors", "background": "milkyway"}
+                ]
             }
         }
     },
