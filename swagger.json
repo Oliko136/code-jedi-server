@@ -419,8 +419,15 @@
                 }],
                 "security": [{ "Bearer": [] }],
                 "responses": {
-                    "204": {
-                        "description": "Board deleted (no content)"
+                    "200": {
+                        "description": "Board deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BoardResponse"
+                                }
+                            }
+                        }
                     },
                     "401": {
                         "description": "Missing header with authorization token"
@@ -647,7 +654,7 @@
                     "board": {
                         "type": "object",
                         "properties": {
-                            "id": {
+                            "_id": {
                                 "type": "string",
                                 "description": "Board id",
                                 "example": "6638be5fe63b9dbsdf8db0ch"
@@ -666,20 +673,36 @@
                                 "type": "string",
                                 "description": "Board background",
                                 "example": "air"
+                            },
+                            "owner": {
+                                "type": "string",
+                                "description": "Board owner's id",
+                                "example": "6038be5frd3b9dsbaff8db0cb"
                             }
                         }
                     }
                 }
             },
             "GetAllBoardsResponse": {
-                "type": "array",
-                "items": {
-                    "$ref": "#/components/schemas/BoardResponse" 
-                },
-                "example": [
-                    { "id": "6638be5fe63b9dbsdf8db0ch", "title": "Project office", "icon": "project", "background": "air" },
-                    { "id": "9828b75fe63b9dbsd48db03s", "title": "Neon Light Project", "icon": "colors", "background": "milkyway"}
-                ]
+                "type": "object",
+                "properties": {
+                    "result": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/BoardResponse" 
+                        },
+                        "example": [
+                            { "id": "6638be5fe63b9dbsdf8db0ch", "title": "Project office", "icon": "project", "background": "air", "owner": "603abs5fjd3b9dsbaff8dh0c8" },
+                            { "id": "9828b75fe63b9dbsd48db03s", "title": "Neon Light Project", "icon": "colors", "background": "milkyway", "owner": "603abs5fjd3b9dsbaff8dh0c8"}
+                        ]
+                    },
+                    "total": {
+                        "type": "integer",
+                        "description": "Total amount of boards for this user",
+                        "example": 5
+                    }
+                } 
+                
             },
             "EditBoardRequest": {
                 "type": "object",
