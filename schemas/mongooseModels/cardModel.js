@@ -12,16 +12,24 @@ const cardSchema = new Schema(
     },
     description: {
       type: String,
+      default: "",
     },
     priority: {
       type: String,
       enum: PRIORITY_LIST,
       default: "without",
     },
-    deadline: Date,
+    deadline: {
+      type: Date,
+      default: new Date(),
+    },
     column: {
       type: Schema.Types.ObjectId,
       ref: "column",
+    },
+    board: {
+      type: Schema.Types.ObjectId,
+      ref: "board",
     },
   },
   { versionKey: false }

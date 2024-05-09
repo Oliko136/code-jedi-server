@@ -8,7 +8,7 @@ export const cardAddSchema = Joi.object({
     "string.empty": "Title should not be empty",
     "any.required": "Missing required field title",
   }),
-  description: Joi.string().messages({
+  description: Joi.string().allow("").messages({
     "string.base": "Description must be a string",
   }),
   priority: Joi.string()
@@ -17,15 +17,11 @@ export const cardAddSchema = Joi.object({
       "string.base": "Priority must be a string",
       "any.only": "Invalid priority value",
     }),
-  deadline: Joi.date()
-    .min(new Date()) // Забороняє обирати минулу дату
-    // .format("DD/MM/YYYY") // Встановлює формат дати
-    // .optional() // Робить поле необов'язковим
-    .messages({
-      "date.base": "Deadline must be a valid date",
-      "date.min": "Deadline must be in the future",
-      // "date.format": "Deadline must be in the format DD/MM/YYYY",
-    }),
+  deadline: Joi.date().min(new Date()).iso().messages({
+    "date.base": "Deadline must be a valid date",
+    "date.min": "Deadline must be in the future",
+    "date.format": "Deadline must be in ISO format (YYYY-MM-DD)",
+  }),
 });
 
 export const cardEditSchema = Joi.object({
@@ -34,7 +30,7 @@ export const cardEditSchema = Joi.object({
     "string.empty": "Title should not be empty",
     "string.min": "Title must have a minimum length of {#limit} symbols",
   }),
-  description: Joi.string().messages({
+  description: Joi.string().allow("").messages({
     "string.base": "Description must be a string",
   }),
   priority: Joi.string()
@@ -43,13 +39,21 @@ export const cardEditSchema = Joi.object({
       "string.base": "Priority must be a string",
       "any.only": "Invalid priority value",
     }),
-  deadline: Joi.date()
-    .min(new Date()) // Забороняє обирати минулу дату
-    // .format("DD/MM/YYYY") // Встановлює формат дати
-    // .optional() // Робить поле необов'язковим
+  deadline: Joi.date().min(new Date()).iso().messages({
+    "date.base": "Deadline must be a valid date",
+    "date.min": "Deadline must be in the future",
+    "date.format": "Deadline must be in ISO format (YYYY-MM-DD)",
+  }),
+});
+
+export const cardEditСolumnSchema = Joi.object({
+  column: Joi.string()
+    .pattern(/^[0-9a-fA-F]{24}$/)
+    .required()
     .messages({
-      "date.base": "Deadline must be a valid date",
-      "date.min": "Deadline must be in the future",
-      // "date.format": "Deadline must be in the format DD/MM/YYYY",
+      "string.base": "Column must be a string",
+      "string.empty": "Column should not be empty",
+      "string.pattern.base": "Incorrect column format",
+      "any.required": "Column is required",
     }),
 });

@@ -5,8 +5,6 @@ import isValidId from "../middlewares/isValidId.js";
 import boardControllers from "../controllers/boardControllers.js";
 import {
   boardAddSchema,
-  boardEditBackgroundSchema,
-  boardEditIconSchema,
   boardEditSchema,
 } from "../schemas/joiSchemas/boardSchemas.js";
 
@@ -25,26 +23,25 @@ boardRouter.get("/", boardControllers.getAllBoards);
 boardRouter.get("/:id", isValidId, boardControllers.getOneBoard);
 
 boardRouter.put(
-  // Чи змінити на patch???, бо залишається одне поле "title" для редагування
   "/:id",
   isValidId,
   validateBody(boardEditSchema),
   boardControllers.updateBoard
 );
 
-boardRouter.patch(
-  "/:id/icons",
-  isValidId,
-  validateBody(boardEditIconSchema),
-  boardControllers.updateBoardElements
-);
+// boardRouter.patch(
+//   "/:id/icons",
+//   isValidId,
+//   validateBody(boardEditIconSchema),
+//   boardControllers.updateBoardElements
+// );
 
-boardRouter.patch(
-  "/:id/background",
-  isValidId,
-  validateBody(boardEditBackgroundSchema),
-  boardControllers.updateBoardElements
-);
+// boardRouter.patch(
+//   "/:id/background",
+//   isValidId,
+//   validateBody(boardEditBackgroundSchema),
+//   boardControllers.updateBoardElements
+// );
 
 boardRouter.delete("/:id", isValidId, boardControllers.deleteBoard);
 

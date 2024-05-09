@@ -9,6 +9,12 @@ const columnSchema = new Schema(
       unique: true,
       required: [true, "Title is required"],
     },
+    cards: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "card",
+      },
+    ],
     board: {
       type: Schema.Types.ObjectId,
       ref: "board",
