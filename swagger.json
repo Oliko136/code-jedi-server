@@ -272,7 +272,7 @@
                 "parameters": [],
                 "security": [{ "Bearer": [] }],
                 "requestBody": {
-                    "description": "New board object",
+                    "description": "New board details object",
                     "required": true,
                     "content": {
                         "application/json": {
@@ -288,7 +288,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "$ref": "#/components/schemas/CreateBoardResponse"
+                                    "$ref": "#/components/schemas/BoardResponse"
                                 }
                             }
                         }
@@ -329,24 +329,109 @@
                 }
             }
         },
-        "/boards:id": {
+        "/boards/:id": {
             "get": {
                 "tags": ["Board"],
                 "summary": "Get one board by id",
-                "parameters": [],
-                "security": [{ "Bearer": [] }]
+                "parameters": [{
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                    "type": "string",
+                    "description": "Board id"
+                }],
+                "security": [{ "Bearer": [] }],
+                "responses": {
+                    "200": {
+                        "description": "Board successfully fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BoardResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "404": {
+                        "description": "Board not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
             },
             "put": {
                 "tags": ["Board"],
                 "summary": "Update board by id",
-                "parameters": [],
-                "security": [{ "Bearer": [] }]
+                "parameters": [{
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                    "type": "string",
+                    "description": "Board id"
+                }],
+                "security": [{ "Bearer": [] }],
+                "requestBody": {
+                    "description": "Board details object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EditBoardRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Board updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BoardResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "404": {
+                        "description": "Board not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
             },
             "delete": {
                 "tags": ["Board"],
                 "summary": "Delete board by id",
-                "parameters": [],
-                "security": [{ "Bearer": [] }]
+                "parameters": [{
+                    "in": "path",
+                    "name": "id",
+                    "required": true,
+                    "type": "string",
+                    "description": "Board id"
+                }],
+                "security": [{ "Bearer": [] }],
+                "responses": {
+                    "204": {
+                        "description": "Board deleted (no content)"
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "404": {
+                        "description": "Board not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
             }
         }
     },
@@ -556,7 +641,7 @@
                     }
                 }
             },
-            "CreateBoardResponse": {
+            "BoardResponse": {
                 "type": "object",
                 "properties": {
                     "board": {
@@ -589,12 +674,32 @@
             "GetAllBoardsResponse": {
                 "type": "array",
                 "items": {
-                    "$ref": "#/components/schemas/CreateBoardResponse" 
+                    "$ref": "#/components/schemas/BoardResponse" 
                 },
                 "example": [
                     { "id": "6638be5fe63b9dbsdf8db0ch", "title": "Project office", "icon": "project", "background": "air" },
                     { "id": "9828b75fe63b9dbsd48db03s", "title": "Neon Light Project", "icon": "colors", "background": "milkyway"}
                 ]
+            },
+            "EditBoardRequest": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "New board title",
+                        "example": "Project office"
+                    },
+                    "icon": {
+                        "type": "string",
+                        "description": "New board icon",
+                        "example": "project"
+                    },
+                    "background": {
+                        "type": "string",
+                        "description": "New board background",
+                        "example": "air"
+                    }
+                }
             }
         }
     },
