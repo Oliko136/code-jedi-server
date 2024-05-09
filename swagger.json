@@ -563,16 +563,21 @@
             "EditUserInfoResponse": {
                 "type": "object",
                 "properties": {
-                    "name": {
-                        "type": "string",
-                        "description": "New username",
-                        "example": "Adrian Cross"
-                    },
-                    "email": {
-                        "type": "string",
-                        "description": "User's new email",
-                        "example": "across@mail.com"
-                    }
+                    "user": {
+                        "type": "object",
+                        "properties": {
+                            "name": {
+                                "type": "string",
+                                "description": "New username",
+                                "example": "Adrian Cross"
+                            },
+                            "email": {
+                                "type": "string",
+                                "description": "User's new email",
+                                "example": "across@mail.com"
+                            }
+                        }  
+                    }  
                 }
             },
             "EditUserThemeRequest": {
