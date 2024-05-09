@@ -45,3 +45,15 @@ export const cardEditSchema = Joi.object({
     "date.format": "Deadline must be in ISO format (YYYY-MM-DD)",
   }),
 });
+
+export const cardEditСolumnSchema = Joi.object({
+  column: Joi.string()
+    .pattern(/^[0-9a-fA-F]{24}$/)
+    .required()
+    .messages({
+      "string.base": "Column must be a string",
+      "string.empty": "Column should not be empty",
+      "string.pattern.base": "Incorrect column format",
+      "any.required": "Column is required",
+    }),
+});

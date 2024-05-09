@@ -6,6 +6,7 @@ import cardControllers from "../controllers/cardControllers.js";
 import {
   cardAddSchema,
   cardEditSchema,
+  cardEditСolumnSchema,
 } from "../schemas/joiSchemas/cardSchemas.js";
 
 const cardRouter = express.Router();
@@ -34,6 +35,13 @@ cardRouter.put(
   isValidId,
   validateBody(cardEditSchema),
   cardControllers.updateCard
+);
+
+cardRouter.patch(
+  "/:boardId/columns/:columnId/cards/:id",
+  isValidId,
+  validateBody(cardEditСolumnSchema),
+  cardControllers.updateCardColumn
 );
 
 cardRouter.delete(

@@ -3,7 +3,7 @@ import Card from "../schemas/mongooseModels/cardModel.js";
 export const createCard = (body) => Card.create(body);
 
 export const getAllCards = (filter) =>
-  Card.find(filter).populate("column", "title");
+  Card.find(filter).populate("column", "title").populate("board", "title");
 
 export const countCards = (filter) => Card.countDocuments(filter);
 

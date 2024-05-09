@@ -46,15 +46,15 @@ const updateBoard = async (req, res) => {
   res.json(result);
 };
 
-const updateBoardElements = async (req, res) => {
-  const { _id: owner } = req.user;
-  const { id } = req.params;
-  const result = await boardServices.updateBoard({ owner, _id: id }, req.body);
-  if (!result) {
-    throw HttpError(404, "Not found");
-  }
-  res.json(result);
-};
+// const updateBoardElements = async (req, res) => {
+//   const { _id: owner } = req.user;
+//   const { id } = req.params;
+//   const result = await boardServices.updateBoard({ owner, _id: id }, req.body);
+//   if (!result) {
+//     throw HttpError(404, "Not found");
+//   }
+//   res.json(result);
+// };
 
 const deleteBoard = async (req, res) => {
   const { _id: owner } = req.user;
@@ -71,6 +71,6 @@ export default {
   getAllBoards: controllerDecorator(getAllBoards),
   getOneBoard: controllerDecorator(getOneBoard),
   updateBoard: controllerDecorator(updateBoard),
-  updateBoardElements: controllerDecorator(updateBoardElements),
+  // updateBoardElements: controllerDecorator(updateBoardElements),
   deleteBoard: controllerDecorator(deleteBoard),
 };

@@ -1,6 +1,7 @@
 import HttpError from "../helpers/HttpError.js";
 import controllerDecorator from "../helpers/controllerDecorator.js";
 import * as columnServices from "../services/columnServices.js";
+import { updateBoard } from "../services/boardServices.js";
 
 export const createColumn = async (req, res) => {
   const { boardId: board } = req.params;
@@ -13,6 +14,8 @@ export const createColumn = async (req, res) => {
     ...req.body,
     board,
   });
+  const { _id: columnId } = result;
+  await updateBoard({ _id: board }, { $push: { columns: columnId } });
   res.status(201).json(result);
 };
 
@@ -56,6 +59,7 @@ const deleteColumn = async (req, res) => {
   if (!result) {
     throw HttpError(404, "Not found");
   }
+  await updateBoard({ _id: board }, { $pull: { columns: id } });
   res.json(result);
 };
 
