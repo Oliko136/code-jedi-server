@@ -21,8 +21,10 @@ const updateProfile = async (req, res) => {
     { ...req.body, password: hashPassword }
   );
   res.json({
-    name: result.name,
-    email: result.email
+    user: {
+      name: result.name,
+      email: result.email
+    }
   });
 };
 
