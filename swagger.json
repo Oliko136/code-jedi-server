@@ -440,6 +440,221 @@
                     }
                 }
             }
+        },
+        "/boards/:boardId/columns": {
+            "post": {
+                "tags": ["Column"],
+                "summary": "Create a new column",
+                "parameters": [{
+                    "in": "path",
+                    "name": "boardId",
+                    "required": true,
+                    "type": "string",
+                    "description": "Board id"
+                }],
+                "security": [{ "Bearer": [] }],
+                "requestBody": {
+                    "description": "New column details object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateColumnRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Column created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ColumnResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)"
+                    },
+                    "409": {
+                        "description": "Title already exists"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Column"],
+                "summary": "Get all columns",
+                "parameters": [{
+                    "in": "path",
+                    "name": "boardId",
+                    "required": true,
+                    "type": "string",
+                    "description": "Board id"
+                }],
+                "security": [{ "Bearer": [] }],
+                "responses": {
+                    "200": {
+                        "description": "Columns successfully fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetAllColumnsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/boards/:boardId/columns/:id": {
+            "get": {
+                "tags": ["Column"],
+                "summary": "Get one column by id",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "boardId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Board id"
+                    }, 
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "string",
+                        "description": "Column id"
+                    }
+                ],
+                "security": [{ "Bearer": [] }],
+                "responses": {
+                    "200": {
+                        "description": "Column successfully fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ColumnResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "404": {
+                        "description": "Column not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "put": {
+                "tags": ["Column"],
+                "summary": "Update column by id",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "boardId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Board id"
+                    }, 
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "string",
+                        "description": "Column id"
+                    }
+                ],
+                "security": [{ "Bearer": [] }],
+                "requestBody": {
+                    "description": "Board details object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EditColumnRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Column updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ColumnResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "404": {
+                        "description": "Column not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Column"],
+                "summary": "Delete column by id",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "boardId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Board id"
+                    }, 
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "string",
+                        "description": "Column id"
+                    }
+                ],
+                "security": [{ "Bearer": [] }],
+                "responses": {
+                    "200": {
+                        "description": "Column deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ColumnResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "404": {
+                        "description": "Column not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -676,17 +891,16 @@
                             "$ref": "#/components/schemas/BoardResponse" 
                         },
                         "example": [
-                            { "id": "6638be5fe63b9dbsdf8db0ch", "title": "Project office", "icon": "project", "background": "air", "owner": "603abs5fjd3b9dsbaff8dh0c8" },
-                            { "id": "9828b75fe63b9dbsd48db03s", "title": "Neon Light Project", "icon": "colors", "background": "milkyway", "owner": "603abs5fjd3b9dsbaff8dh0c8"}
+                            { "_id": "6638be5fe63b9dbsdf8db0ch", "title": "Project office", "icon": "project", "background": "air", "owner": "603abs5fjd3b9dsbaff8dh0c8" },
+                            { "_id": "9828b75fe63b9dbsd48db03s", "title": "Neon Light Project", "icon": "colors", "background": "milkyway", "owner": "603abs5fjd3b9dsbaff8dh0c8"}
                         ]
                     },
                     "total": {
                         "type": "integer",
                         "description": "Total amount of boards for this user",
-                        "example": 5
+                        "example": 2
                     }
-                } 
-                
+                }
             },
             "EditBoardRequest": {
                 "type": "object",
@@ -705,6 +919,67 @@
                         "type": "string",
                         "description": "New board background",
                         "example": "air"
+                    }
+                }
+            },
+            "CreateColumnRequest": {
+                "type": "object",
+                "required": ["title"],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "Column title",
+                        "example": "To do"
+                    }
+                }
+            },
+            "ColumnResponse": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "description": "Column id",
+                        "example": "6638be5fe63b9dbsdf8db0ch"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Column title",
+                        "example": "To do"
+                    },
+                    "board": {
+                        "type": "string",
+                        "description": "Board id",
+                        "example": "643xd17a61fa81d1563180fk"
+                    }
+                }
+            },
+            "GetAllColumnsResponse": {
+                "type": "object",
+                "properties": {
+                    "result": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ColumnResponse" 
+                        },
+                        "example": [
+                            { "_id": "6638be5fe63b9dbsdf8db0ch", "title": "To do", "board": "603abs7fjd3b9dfbafsgdh0c9" },
+                            { "_id": "9828b75fe63b9dbsd48db03s", "title": "In progress", "board": "603abs7fjd3b9dfbafsgdh0c9"}
+                        ]
+                    },
+                    "total": {
+                        "type": "integer",
+                        "description": "Total amount of columns for this board",
+                        "example": 2
+                    }
+                }
+            },
+            "EditColumnRequest": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "New column title",
+                        "example": "To do"
                     }
                 }
             }
