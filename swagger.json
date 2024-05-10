@@ -440,6 +440,536 @@
                     }
                 }
             }
+        },
+        "/boards/:boardId/columns": {
+            "post": {
+                "tags": ["Column"],
+                "summary": "Create a new column",
+                "parameters": [{
+                    "in": "path",
+                    "name": "boardId",
+                    "required": true,
+                    "type": "string",
+                    "description": "Board id"
+                }],
+                "security": [{ "Bearer": [] }],
+                "requestBody": {
+                    "description": "New column details object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateColumnRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Column created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ColumnResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)"
+                    },
+                    "409": {
+                        "description": "Title already exists"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Column"],
+                "summary": "Get all columns",
+                "parameters": [{
+                    "in": "path",
+                    "name": "boardId",
+                    "required": true,
+                    "type": "string",
+                    "description": "Board id"
+                }],
+                "security": [{ "Bearer": [] }],
+                "responses": {
+                    "200": {
+                        "description": "Columns successfully fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetAllColumnsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/boards/:boardId/columns/:id": {
+            "get": {
+                "tags": ["Column"],
+                "summary": "Get one column by id",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "boardId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Board id"
+                    }, 
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "string",
+                        "description": "Column id"
+                    }
+                ],
+                "security": [{ "Bearer": [] }],
+                "responses": {
+                    "200": {
+                        "description": "Column successfully fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ColumnResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "404": {
+                        "description": "Column not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "put": {
+                "tags": ["Column"],
+                "summary": "Update column by id",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "boardId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Board id"
+                    }, 
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "string",
+                        "description": "Column id"
+                    }
+                ],
+                "security": [{ "Bearer": [] }],
+                "requestBody": {
+                    "description": "Board details object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EditColumnRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Column updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ColumnResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "404": {
+                        "description": "Column not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Column"],
+                "summary": "Delete column by id",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "boardId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Board id"
+                    }, 
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "string",
+                        "description": "Column id"
+                    }
+                ],
+                "security": [{ "Bearer": [] }],
+                "responses": {
+                    "200": {
+                        "description": "Column deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ColumnResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "404": {
+                        "description": "Column not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
+        },
+        "/boards/:boardId/columns/:columnId/cards": {
+            "post": {
+                "tags": ["Card"],
+                "summary": "Create a new card",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "boardId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Board id"
+                    }, 
+                    {
+                        "in": "path",
+                        "name": "columnId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Column id"
+                    }
+                ],
+                "security": [{ "Bearer": [] }],
+                "requestBody": {
+                    "description": "New card details object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateCardRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Card created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CardResponse"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request (invalid request body)"
+                    },
+                    "409": {
+                        "description": "Title already exists"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "get": {
+                "tags": ["Card"],
+                "summary": "Get all cards",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "boardId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Board id"
+                    }, 
+                    {
+                        "in": "path",
+                        "name": "columnId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Column id"
+                    }
+                ],
+                "security": [{ "Bearer": [] }],
+                "responses": {
+                    "200": {
+                        "description": "Cards successfully fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/GetAllCardsResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+                
+            }
+        },
+        "/boards/:boardId/columns/:columnId/cards/:id": {
+            "get": {
+                "tags": ["Card"],
+                "summary": "Get one card by id",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "boardId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Board id"
+                    }, 
+                    {
+                        "in": "path",
+                        "name": "columnId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Column id"
+                    },
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "string",
+                        "description": "Card id"
+                    }
+                ],
+                "security": [{ "Bearer": [] }],
+                "responses": {
+                    "200": {
+                        "description": "Card successfully fetched",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CardResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "404": {
+                        "description": "Card not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "put": {
+                "tags": ["Card"],
+                "summary": "Update card by id",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "boardId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Board id"
+                    }, 
+                    {
+                        "in": "path",
+                        "name": "columnId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Column id"
+                    },
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "string",
+                        "description": "Card id"
+                    }
+                ],
+                "security": [{ "Bearer": [] }],
+                "requestBody": {
+                    "description": "Card details object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EditCardRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Card updated",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CardResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "404": {
+                        "description": "Card not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "patch": {
+                "tags": ["Card"],
+                "summary": "Change card's column",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "boardId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Board id"
+                    }, 
+                    {
+                        "in": "path",
+                        "name": "columnId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Column id"
+                    },
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "string",
+                        "description": "Card id"
+                    }
+                ],
+                "security": [{ "Bearer": [] }],
+                "requestBody": {
+                    "description": "Card's column object",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EditCardColumnRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Card's column changed",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/EditCardColumnResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "404": {
+                        "description": "Card not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Card"],
+                "summary": "Delete card by id",
+                "parameters": [
+                    {
+                        "in": "path",
+                        "name": "boardId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Board id"
+                    }, 
+                    {
+                        "in": "path",
+                        "name": "columnId",
+                        "required": true,
+                        "type": "string",
+                        "description": "Column id"
+                    },
+                    {
+                        "in": "path",
+                        "name": "id",
+                        "required": true,
+                        "type": "string",
+                        "description": "Card id"
+                    }
+                ],
+                "security": [{ "Bearer": [] }],
+                "responses": {
+                    "200": {
+                        "description": "Card deleted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/CardResponse"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Missing header with authorization token"
+                    },
+                    "404": {
+                        "description": "Card not found"
+                    },
+                    "500": {
+                        "description": "Server error"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -676,17 +1206,16 @@
                             "$ref": "#/components/schemas/BoardResponse" 
                         },
                         "example": [
-                            { "id": "6638be5fe63b9dbsdf8db0ch", "title": "Project office", "icon": "project", "background": "air", "owner": "603abs5fjd3b9dsbaff8dh0c8" },
-                            { "id": "9828b75fe63b9dbsd48db03s", "title": "Neon Light Project", "icon": "colors", "background": "milkyway", "owner": "603abs5fjd3b9dsbaff8dh0c8"}
+                            { "_id": "6638be5fe63b9dbsdf8db0ch", "title": "Project office", "icon": "project", "background": "air", "owner": "603abs5fjd3b9dsbaff8dh0c8" },
+                            { "_id": "9828b75fe63b9dbsd48db03s", "title": "Neon Light Project", "icon": "colors", "background": "milkyway", "owner": "603abs5fjd3b9dsbaff8dh0c8"}
                         ]
                     },
                     "total": {
                         "type": "integer",
                         "description": "Total amount of boards for this user",
-                        "example": 5
+                        "example": 2
                     }
-                } 
-                
+                }
             },
             "EditBoardRequest": {
                 "type": "object",
@@ -707,9 +1236,220 @@
                         "example": "air"
                     }
                 }
+            },
+            "CreateColumnRequest": {
+                "type": "object",
+                "required": ["title"],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "Column title",
+                        "example": "To do"
+                    }
+                }
+            },
+            "ColumnResponse": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "description": "Column id",
+                        "example": "6638be5fe63b9dbsdf8db0ch"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Column title",
+                        "example": "To do"
+                    },
+                    "board": {
+                        "type": "string",
+                        "description": "Board id",
+                        "example": "643xd17a61fa81d1563180fk"
+                    }
+                }
+            },
+            "GetAllColumnsResponse": {
+                "type": "object",
+                "properties": {
+                    "result": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/ColumnResponse" 
+                        },
+                        "example": [
+                            { "_id": "6638be5fe63b9dbsdf8db0ch", "title": "To do", "board": "603abs7fjd3b9dfbafsgdh0c9" },
+                            { "_id": "9828b75fe63b9dbsd48db03s", "title": "In progress", "board": "603abs7fjd3b9dfbafsgdh0c9"}
+                        ]
+                    },
+                    "total": {
+                        "type": "integer",
+                        "description": "Total amount of columns for this board",
+                        "example": 2
+                    }
+                }
+            },
+            "EditColumnRequest": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "New column title",
+                        "example": "To do"
+                    }
+                }
+            },
+            "CreateCardRequest": {
+                "type": "object",
+                "required": ["title"],
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "Card title",
+                        "example": "The Watch Spot Design"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Card description",
+                        "example": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance."
+                    },
+                    "priority": {
+                        "type": "string",
+                        "description": "Task priority",
+                        "example": "medium"
+                    },
+                    "deadline": {
+                        "type": "string",
+                        "description": "Task deadline",
+                        "format": "date",
+                        "example": "2024-05-15"
+                    }
+                }
+            },
+            "CardResponse": {
+                "type": "object",
+                "properties": {
+                    "_id": {
+                        "type": "string",
+                        "description": "Card id",
+                        "example": "6638be5fe63b9dbsdf8db0ch"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Card title",
+                        "example": "The Watch Spot Design"
+                    },
+                   "description": {
+                        "type": "string",
+                        "description": "Card description",
+                        "example": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance."
+                    },
+                    "priority": {
+                        "type": "string",
+                        "description": "Task priority",
+                        "example": "medium"
+                    },
+                    "deadline": {
+                        "type": "string",
+                        "description": "Task deadline",
+                        "format": "date",
+                        "example": "2024-05-15"
+                    },
+                    "column": {
+                        "type": "string",
+                        "description": "Column id",
+                        "example": "7038be5prd3bkdsb0vf8d30cd"
+                    },
+                    "board": {
+                        "type": "string",
+                        "description": "Board id",
+                        "example": "643xd17a61fa81d1563180fk"
+                    }
+                }
+            },
+            "GetAllCardsResponse": {
+                "type": "object",
+                "properties": {
+                    "result": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/СardResponse"
+                        },
+                        "example": [
+                            { 
+                                "_id": "6638be5fe63b9dbsdf8db0ch",
+                                "title": "The Watch Spot Design", 
+                                "description": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance.",
+                                "priority": "medium",
+                                "deadline": "2024-05-15",
+                                "column": "603abs5fjd3b9dsbaff8dh0c8",
+                                "board": "658lhs8fjd3b9dsbamf5ks5d7"
+                            },
+                            {
+                                "_id": "9828b75fe63b9dbsd48db03s",
+                                "title": "Research and Analysis",
+                                "description": "Conduct in-depth research and analysis on the project's topic, gather relevant data, and identify key insights to inform decision-making and project planning.",
+                                "priority": "low",
+                                "deadline": "2024-05-20",
+                                "column": "603abs5fjd3b9dsbaff8dh0c8",
+                                "board": "658lhs8fjd3b9dsbamf5ks5d7"
+                            }
+                        ]
+                    },
+                    "total": {
+                        "type": "integer",
+                        "description": "Total amount of cards for this column",
+                        "example": 2
+                    }
+                }
+            },
+            "EditCardRequest": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "description": "Card title",
+                        "example": "The Watch Spot Design"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Card description",
+                        "example": "Create a visually stunning and eye-catching watch dial design that embodies our brand's essence of sleek aesthetics and modern elegance."
+                    },
+                    "priority": {
+                        "type": "string",
+                        "description": "Task priority",
+                        "example": "medium"
+                    },
+                    "deadline": {
+                        "type": "string",
+                        "description": "Task deadline",
+                        "format": "date",
+                        "example": "2024-05-15"
+                    }
+                }
+            },
+            "EditCardColumnRequest": {
+                "type": "object",
+                "required": ["column"],
+                "properties": {
+                    "column": {
+                        "type": "string",
+                        "description": "Card's column id",
+                        "example": "7038be5prd3bkdsb0vf8d30cd"
+                    }
+                }
+            },
+            "EditCardColumnResponse": {
+                "type": "object",
+                "properties": {
+                    "column": {
+                        "type": "string",
+                        "description": "Card's column id",
+                        "example": "7038be5prd3bkdsb0vf8d30cd"
+                    }
+                }
             }
-        }
-    },
+        },
         "securitySchemes": {
             "Bearer": {
                 "type": "http",
@@ -718,3 +1458,4 @@
             }
         }
     }
+}
