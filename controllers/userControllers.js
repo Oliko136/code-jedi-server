@@ -58,18 +58,23 @@ const updateAvatar = async (req, res) => {
     lenna.resize(250, 250).quality(90).greyscale().write(newPath);
   });
   await fs.unlink(oldPath);
-  cloudFunction();
+  await cloudFunction();
 
   async function cloudFunction() {
-    await new Promise((resolve) => setTimeout(resolve, 100));
-    const { url } = await cloudinary.uploader.upload(newPath, {
-      folder: "avatars",
-    });
-    await fs.unlink(newPath);
-    const result = await userServices.updateUser({ _id }, { avatar: url });
-    res.json({
-      avatar: result.avatar
-    });
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      const { url } = await cloudinary.uploader.upload(newPath, {
+        folder: "avatars",
+      });
+      await fs.unlink(newPath);
+      const result = await userServices.updateUser({ _id }, { avatar: url });
+      res.json({
+        avatar: result.avatar
+      });
+    } catch (error) {
+      next(error);
+    }
+    
   }
 };
 
