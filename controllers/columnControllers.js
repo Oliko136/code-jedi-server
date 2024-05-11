@@ -1,7 +1,7 @@
 import HttpError from "../helpers/HttpError.js";
 import controllerDecorator from "../helpers/controllerDecorator.js";
 import * as columnServices from "../services/columnServices.js";
-import { updateBoard } from "../services/boardServices.js";
+import * as cardServices from "../services/cardServices.js";
 
 export const createColumn = async (req, res) => {
   const { boardId: board } = req.params;
@@ -14,8 +14,6 @@ export const createColumn = async (req, res) => {
     ...req.body,
     board,
   });
-  const { _id: columnId } = result;
-  await updateBoard({ _id: board }, { $push: { columns: columnId } });
   res.status(201).json(result);
 };
 
@@ -55,11 +53,17 @@ const updateColumn = async (req, res) => {
 
 const deleteColumn = async (req, res) => {
   const { boardId: board, id } = req.params;
+  const cards = await cardServices.getAllCards({ column: id });
+  for (const card of cards) {
+    await cardServices.deleteCard({
+      column: id,
+      _id: card._id,
+    });
+  }
   const result = await columnServices.deleteColumn({ board, _id: id });
   if (!result) {
     throw HttpError(404, "Not found");
   }
-  await updateBoard({ _id: board }, { $pull: { columns: id } });
   res.json(result);
 };
 

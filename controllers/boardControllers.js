@@ -1,6 +1,8 @@
 import HttpError from "../helpers/HttpError.js";
 import controllerDecorator from "../helpers/controllerDecorator.js";
 import * as boardServices from "../services/boardServices.js";
+import * as columnServices from "../services/columnServices.js";
+import * as cardServices from "../services/cardServices.js";
 
 const createBoard = async (req, res) => {
   const { _id: owner } = req.user;
@@ -46,19 +48,17 @@ const updateBoard = async (req, res) => {
   res.json(result);
 };
 
-// const updateBoardElements = async (req, res) => {
-//   const { _id: owner } = req.user;
-//   const { id } = req.params;
-//   const result = await boardServices.updateBoard({ owner, _id: id }, req.body);
-//   if (!result) {
-//     throw HttpError(404, "Not found");
-//   }
-//   res.json(result);
-// };
-
 const deleteBoard = async (req, res) => {
   const { _id: owner } = req.user;
   const { id } = req.params;
+  const columns = await columnServices.getAllColumns({ board: id });
+  for (const column of columns) {
+    const cards = await cardServices.getAllCards({ column: column._id });
+    for (const card of cards) {
+      await cardServices.deleteCard({ column: column._id, _id: card._id });
+    }
+    await columnServices.deleteColumn({ _id: column._id });
+  }
   const result = await boardServices.deleteBoard({ owner, _id: id });
   if (!result) {
     throw HttpError(404, "Not found");
@@ -71,6 +71,5 @@ export default {
   getAllBoards: controllerDecorator(getAllBoards),
   getOneBoard: controllerDecorator(getOneBoard),
   updateBoard: controllerDecorator(updateBoard),
-  // updateBoardElements: controllerDecorator(updateBoardElements),
   deleteBoard: controllerDecorator(deleteBoard),
 };
