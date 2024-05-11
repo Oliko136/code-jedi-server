@@ -21,18 +21,6 @@ const boardSchema = new Schema(
       enum: BACKGROUND_LIST,
       default: "default",
     },
-    columns: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "column",
-      },
-    ],
-    cards: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "card",
-      },
-    ],
     owner: {
       type: Schema.Types.ObjectId,
       ref: "user",
