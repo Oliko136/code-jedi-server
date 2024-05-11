@@ -1,5 +1,6 @@
 import HttpError from "../helpers/HttpError.js";
 import controllerDecorator from "../helpers/controllerDecorator.js";
+import PRIORITY_LIST from "../constants/priorityList.js";
 import * as columnServices from "../services/columnServices.js";
 import * as cardServices from "../services/cardServices.js";
 
@@ -19,10 +20,46 @@ export const createColumn = async (req, res) => {
 
 const getAllColumns = async (req, res) => {
   const { boardId: board } = req.params;
+  const { priority } = req.query;
+  if (priority && !PRIORITY_LIST.includes(priority)) {
+    throw HttpError(400, "Invalid priority value");
+  }
   const filter = { board };
-  const result = await columnServices.getAllColumns(filter);
-  const total = await columnServices.countColumns(filter);
-  res.json({ result, total });
+  const columns = await columnServices.getAllColumns(filter);
+  const totalColumns = await columnServices.countColumns(filter);
+  const getAllCardsForFilter = async (columnId, priority) => {
+    const filter = { column: columnId };
+    if (priority) {
+      filter.priority = priority;
+    }
+    const cards = await cardServices.getAllCards(filter);
+    return cards;
+  };
+  const columnsWithFilteredCards = await Promise.all(
+    columns.map(async (column) => {
+      const cards = await getAllCardsForFilter(column._id, priority);
+      return { ...column.toObject(), cards };
+    })
+  );
+
+  res.json({ result: columnsWithFilteredCards, total: totalColumns });
+
+  // const result = await columnServices.getAllColumns(filter);
+  // const total = await columnServices.countColumns(filter);
+  // res.json({ result, total, cards });
+  // const getAllCardsForColumn = async (columnId) => {
+  //   const filter = { column: columnId };
+  //   const cards = await cardServices.getAllCards(filter);
+  //   return cards;
+  // };
+  // const columnsWithCards = await Promise.all(
+  //   columns.map(async (column) => {
+  //     const cards = await getAllCardsForColumn(column._id);
+  //     return { columns: { ...column.toObject() }, cards };
+  //   })
+  // );
+
+  // res.json({ result: columns, total: totalColumns });
 };
 
 const getOneColumn = async (req, res) => {

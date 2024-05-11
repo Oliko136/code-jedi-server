@@ -1,5 +1,6 @@
 import HttpError from "../helpers/HttpError.js";
 import controllerDecorator from "../helpers/controllerDecorator.js";
+import PRIORITY_LIST from "../constants/priorityList.js";
 import * as cardServices from "../services/cardServices.js";
 import * as columnServices from "../services/columnServices.js";
 
@@ -20,7 +21,14 @@ export const createCard = async (req, res) => {
 
 const getAllCards = async (req, res) => {
   const { columnId: column } = req.params;
+  // const { priority } = req.query;
+  // if (priority && !PRIORITY_LIST.includes(priority)) {
+  //   throw HttpError(400, "Invalid priority value");
+  // }
   const filter = { column };
+  // if (priority) {
+  //   filter.priority = priority;
+  // }
   const result = await cardServices.getAllCards(filter);
   const total = await cardServices.countCards(filter);
   res.json({ result, total });
