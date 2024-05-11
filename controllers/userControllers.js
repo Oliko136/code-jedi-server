@@ -5,7 +5,7 @@ import Jimp from "jimp";
 import * as userServices from "../services/userServices.js";
 import HttpError from "../helpers/HttpError.js";
 import controllerDecorator from "../helpers/controllerDecorator.js";
-import cloudinary from "../helpers/cloudinary.js";
+import cloudinary from "../helpers/cloudinary.js"
 
 const posterPath = path.resolve("images", "public", "avatar");
 
@@ -45,7 +45,7 @@ const updateTheme = async (req, res) => {
   });
 };
 
-const updateAvatar = async (req, res) => {
+const updateAvatar = async (req, res, next) => {
   if (!req.file) {
     throw HttpError(400, "Please send the file");
   }
@@ -58,18 +58,23 @@ const updateAvatar = async (req, res) => {
     lenna.resize(250, 250).quality(90).greyscale().write(newPath);
   });
   await fs.unlink(oldPath);
-  cloudFunction();
-
-  async function cloudFunction() {
-    await new Promise((resolve) => setTimeout(resolve, 100));
-    const { url } = await cloudinary.uploader.upload(newPath, {
-      folder: "avatars",
-    });
-    await fs.unlink(newPath);
-    const result = await userServices.updateUser({ _id }, { avatar: url });
-    res.json({
-      avatar: result.avatar
-    });
+  await cloudFunction(_id, newPath);
+  
+  async function cloudFunction(_id, newPath) {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+      const { url } = await cloudinary.uploader.upload(newPath, {
+        folder: "avatars",
+      });
+      await fs.unlink(newPath);
+      const result = await userServices.updateUser({ _id }, { avatar: url });
+      res.json({
+        avatar: result.avatar
+      });
+    } catch (error) {
+      next(error);
+    }
+    
   }
 };
 
