@@ -10,7 +10,8 @@ import cloudinary from "../helpers/cloudinary.js"
 const posterPath = path.resolve("images", "public", "avatar");
 
 const updateProfile = async (req, res) => {
-  const { email, password } = req.user;
+  const { email } = req.user;
+  const { password } = req.body;
   const user = await userServices.findUser({ email });
   if (!user) {
     throw HttpError(404, "User not found");
