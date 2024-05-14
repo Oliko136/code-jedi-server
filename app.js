@@ -11,6 +11,7 @@ import userRouter from "./routes/userRoutes.js";
 import boardRouter from "./routes/boardRoutes.js";
 import columnRouter from "./routes/columnRoutes.js";
 import cardRouter from "./routes/cardRoutes.js";
+import emailRouter from "./routes/emailRoutes.js";
 
 const { DB_HOST, PORT } = process.env;
 
@@ -27,6 +28,7 @@ app.use("/users", userRouter);
 app.use("/boards", boardRouter);
 app.use("/boards", columnRouter);
 app.use("/boards", cardRouter);
+app.use("/support", emailRouter);
 
 app.use((_, res) => {
   res.status(404).json({ message: "Route not found" });
