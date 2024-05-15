@@ -5,28 +5,38 @@ import Jimp from "jimp";
 import * as userServices from "../services/userServices.js";
 import HttpError from "../helpers/HttpError.js";
 import controllerDecorator from "../helpers/controllerDecorator.js";
-import cloudinary from "../helpers/cloudinary.js"
+import cloudinary from "../helpers/cloudinary.js";
 
 const posterPath = path.resolve("images", "public", "avatar");
 
-const updateProfile = async (req, res) => {
+const updateProfile = async (req, res, next) => {
   const { email } = req.user;
   const { password } = req.body;
   const user = await userServices.findUser({ email });
   if (!user) {
     throw HttpError(404, "User not found");
   }
-  const hashPassword = await bcrypt.hash(password, 10);
-  const result = await userServices.updateUser(
-    { email },
-    { ...req.body, password: hashPassword }
-  );
-  res.json({
-    user: {
-      name: result.name,
-      email: result.email
+
+  await profileFunction();
+
+  async function profileFunction() {
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 200));
+      const hashPassword = await bcrypt.hash(password, 10);
+      const result = await userServices.updateUser(
+        { email },
+        { ...req.body, password: hashPassword }
+      );
+      res.json({
+        user: {
+          name: result.name,
+          email: result.email,
+        },
+      });
+    } catch (error) {
+      next(error);
     }
-  });
+  }
 };
 
 const updateTheme = async (req, res) => {
@@ -41,8 +51,8 @@ const updateTheme = async (req, res) => {
 
   res.json({
     user: {
-      theme: result.theme
-    }
+      theme: result.theme,
+    },
   });
 };
 
@@ -60,7 +70,7 @@ const updateAvatar = async (req, res, next) => {
   });
   await fs.unlink(oldPath);
   await cloudFunction(_id, newPath);
-  
+
   async function cloudFunction(_id, newPath) {
     try {
       await new Promise((resolve) => setTimeout(resolve, 100));
@@ -70,17 +80,16 @@ const updateAvatar = async (req, res, next) => {
       await fs.unlink(newPath);
       const result = await userServices.updateUser({ _id }, { avatar: url });
       res.json({
-        avatar: result.avatar
+        avatar: result.avatar,
       });
     } catch (error) {
       next(error);
     }
-    
   }
 };
 
 export default {
-    updateProfile: controllerDecorator(updateProfile),
-    updateTheme: controllerDecorator(updateTheme),
-    updateAvatar: controllerDecorator(updateAvatar)
+  updateProfile: controllerDecorator(updateProfile),
+  updateTheme: controllerDecorator(updateTheme),
+  updateAvatar: controllerDecorator(updateAvatar),
 };
