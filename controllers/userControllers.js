@@ -62,30 +62,31 @@ const updateAvatar = async (req, res, next) => {
   }
   const { _id } = req.user;
   const { path: oldPath } = req.file;
-  const newPath = path.join(posterPath, "newfile.jpg");
+  // const newPath = path.join(posterPath, "newfile.jpg");
 
-  Jimp.read(oldPath, (err, lenna) => {
-    if (err) throw err;
-    lenna.resize(250, 250).quality(90).greyscale().write(newPath);
+  // Jimp.read(oldPath, (err, lenna) => {
+  //   if (err) throw err;
+  //   lenna.resize(250, 250).quality(90).greyscale().write(newPath);
+  // });
+  // await fs.unlink(oldPath);
+  const { url } = await cloudinary.uploader.upload(oldPath, {
+    folder: "avatars",
   });
   await fs.unlink(oldPath);
-  await cloudFunction(_id, newPath);
+  const result = await userServices.updateUser({ _id }, { avatar: url });
+  res.json({
+    avatar: result.avatar,
+  });
+  // await cloudFunction(_id, newPath);
 
-  async function cloudFunction(_id, newPath) {
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 100));
-      const { url } = await cloudinary.uploader.upload(newPath, {
-        folder: "avatars",
-      });
-      await fs.unlink(newPath);
-      const result = await userServices.updateUser({ _id }, { avatar: url });
-      res.json({
-        avatar: result.avatar,
-      });
-    } catch (error) {
-      next(error);
-    }
-  }
+  // async function cloudFunction(_id, newPath) {
+  //   try {
+  //     await new Promise((resolve) => setTimeout(resolve, 100));
+
+  // } catch (error) {
+  //   next(error);
+  // }
+  // }
 };
 
 export default {
