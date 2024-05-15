@@ -59,10 +59,11 @@ export const updateUserProfileSchema = Joi.object({
     "string.base": "Email must be a string",
     "string.pattern.base": "Incorrect email format",
   }),
-  password: Joi.string().min(8).max(64).pattern(/^\S+$/).messages({
+  password: Joi.string().min(8).max(64).pattern(/^\S+$/).required().messages({
     "string.base": "Password must be a string",
     "string.min": "Password must have a minimum length of {#limit} symbols",
     "string.max": "Password must have a maximum length of {#limit} symbols",
     "string.pattern.base": "Password must not contain spaces",
+    "any.required": "Missing required field password",
   }),
 });
